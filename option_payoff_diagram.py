@@ -20,7 +20,7 @@ class remove:
 		c.execute("DELETE from strats where rowid = "+str(self.number))
 		conn.commit()
 		conn.close()
-		
+
 def save_db(database):
 	files = [('Database','*.db')]
 	file = filedialog.asksaveasfile(filetypes = files, defaultextension = files)
@@ -54,7 +54,7 @@ def add_leg(database):
 	    number = c.fetchall()[-1][-1]
 
 	_ = remove(screen1, number, str(buy_sell.get()), str(strike.get()), str(ce_pe.get()), str(premium.get()), str(quantity.get()), database)
-	
+
 	premium_entry.delete(0,END)
 	quantity_entry.delete(0,END)
 	strike_entry.delete(0,END)
