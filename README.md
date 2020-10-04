@@ -4,7 +4,7 @@ This is a desktop application that helps Options traders to create and analyze t
 
 ## Usage
 
--  ``` git clone https://github.com/sakshi2912/Proximity.git ```
+-  ``` git clone https://github.com/TradeMythBuster/Stock-Options-Graph ```
 
 - Run the python script:
 
