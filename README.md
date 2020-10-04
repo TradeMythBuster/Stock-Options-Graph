@@ -13,5 +13,5 @@ This is a desktop application that helps Options traders to create and analyze t
 ## Demonstration
 
 For more details on how to use the application and to learn the math behind the code, head on to
-- Math behind Options PayOff Graph[https://youtu.be/k3NdKt51qqg]
-- How to use the desktop application[https://youtu.be/H5PSv8t7yh0]
+- [Math behind Options PayOff Graph](https://youtu.be/k3NdKt51qqg)
+- [How to use the desktop application](https://youtu.be/H5PSv8t7yh0)
