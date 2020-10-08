@@ -4,11 +4,20 @@ This is a desktop application that helps Options traders to create and analyze t
 
 ## Usage
 
--  ``` git clone https://github.com/TradeMythBuster/Stock-Options-Graph ```
+- Clone the Repository using
+```bash
+git clone https://github.com/TradeMythBuster/Stock-Options-Graph
+```
 
-- Run the python script:
+- Install the dependencies
+```bash
+python3 -m pip install -r requirements.txt
+```
 
-   ``` python3 option_payoff_diagram.py ```
+- Run the python script
+```python
+python3 option_payoff_diagram.py
+```
 
 ## Demonstration
 
