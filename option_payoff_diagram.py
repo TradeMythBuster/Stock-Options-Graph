@@ -4,6 +4,7 @@ from tkinter import ttk
 import sqlite3
 import matplotlib.pyplot as plt
 import configuration
+from sys import platform
 
 class remove:
 	def __init__(self, master, value, first, second, third, fourth, fifth, database):
@@ -189,7 +190,11 @@ root =Tk()
 root.geometry('381x150')#"%dx%d+0+0"%(root.winfo_screenwidth(),root.winfo_screenheight())
 root.title("Options Pay-Off Builder")
 root.configure(bg=background)
-root.iconbitmap("optionicon.ico")
+img = PhotoImage(file='optionicon_linux.gif')
+if platform == "linux" or platform == "linux2":
+    root.tk.call('wm', 'iconphoto', root._w, img)
+elif platform == "win32":
+    root.iconbitmap("optionicon.ico")
 
 heading = Label(root, text="Options Pay-Off Graph Generator", height = 2, font=("Calibri", 18), fg=header_fg, bg=header_bg)
 heading.grid(row=0, column=0, columnspan=2, stick=W+E)
