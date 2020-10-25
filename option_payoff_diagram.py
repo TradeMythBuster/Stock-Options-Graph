@@ -3,6 +3,7 @@ from tkinter import filedialog
 from tkinter import ttk
 import sqlite3
 import matplotlib.pyplot as plt
+import configuration
 
 class remove:
 	def __init__(self, master, value, first, second, third, fourth, fifth, database):
@@ -180,12 +181,17 @@ def add_strat(database):
 	for leg in legs:
 		_ = remove(screen1, leg[5], str(leg[0]), str(leg[2]), str(leg[1]), str(leg[3]), str(leg[4]), database)
 
+background = configuration.colors['background']
+header_fg = configuration.colors['header_foreground']
+header_bg = configuration.colors['header_background']
+
 root =Tk()
 root.geometry('381x150')#"%dx%d+0+0"%(root.winfo_screenwidth(),root.winfo_screenheight())
 root.title("Options Pay-Off Builder")
+root.configure(bg=background)
 root.iconbitmap("optionicon.ico")
 
-heading = Label(root, text="Options Pay-Off Graph Generator", height = 2, font=("Calibri", 18))
+heading = Label(root, text="Options Pay-Off Graph Generator", height = 2, font=("Calibri", 18), fg=header_fg, bg=header_bg)
 heading.grid(row=0, column=0, columnspan=2, stick=W+E)
 
 create = Button(root, text=" Create New Strategy ", padx = 5, pady = 5, font=("Calibri", 13), command = lambda:add_strat('trial.db'))
