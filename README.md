@@ -19,6 +19,8 @@ python3 -m pip install -r requirements.txt
 python3 option_payoff_diagram.py
 ```
 
+![](payoff_builder.gif)
+
 ## Demonstration
 
 For more details on how to use the application and to learn the math behind the code, head on to
