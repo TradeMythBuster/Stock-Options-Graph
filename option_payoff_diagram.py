@@ -3,6 +3,8 @@ from tkinter import filedialog
 from tkinter import ttk
 import sqlite3
 import matplotlib.pyplot as plt
+import configuration
+from sys import platform
 
 class remove:
 	def __init__(self, master, value, first, second, third, fourth, fifth, database):
@@ -123,69 +125,80 @@ def create_graph(database):
 		conn.commit()
 
 def add_strat(database):
-	global buy_sell,ce_pe,strike,premium,quantity,strike_entry,premium_entry,quantity_entry,screen1
-	conn = sqlite3.connect(database)
-	c = conn.cursor()
-	if database == 'trial.db':
-		try:
-			c.execute("DROP TABLE strats")
-			conn.commit()
-		except:
-			pass
+    global buy_sell,ce_pe,strike,premium,quantity,strike_entry,premium_entry,quantity_entry,screen1
+    conn = sqlite3.connect(database)
+    c = conn.cursor()
+    if database == 'trial.db':
+        try:
+            c.execute("DROP TABLE strats")
+            conn.commit()
+        except:
+            pass
+        c.execute("""CREATE TABLE strats (action text,ce_pe text,strike real,premium real,quantity integer)""")
+    screen1 = Toplevel(root)
+    screen1.title("Create STRATEGY")
+    img = PhotoImage(file='optionicon_linux.gif')
+    if platform == "linux" or platform == "linux2":
+        screen1.tk.call('wm', 'iconphoto', root._w, img)
+    elif platform == "win32":
+        screen1.iconbitmap("optionicon.ico")
+    screen1.geometry("%dx%d+0+0"%(root.winfo_screenwidth(),root.winfo_screenheight()))
+    
+    Label(screen1,text = "Choose action (BUY/SELL) : ",padx = 5,pady = 5,font=("Calibri", 13)).grid(row=0,column = 0)
+    buy_sell = ttk.Combobox(screen1, value=["BUY", "SELL"],width=6)
+    buy_sell.current(0)
+    buy_sell.grid(row=0,column = 1,padx = 5,pady = 5)
+    
+    Label(screen1,text = " "*15+"Choose type (CALL/PUT) : ",padx = 5,pady = 5,font=("Calibri", 13)).grid(row=0,column = 2)
+    ce_pe = ttk.Combobox(screen1, value=["CALL", "PUT"],width=6)
+    ce_pe.current(0)
+    ce_pe.grid(row=0,column = 3,padx = 5,pady = 5)
+    
+    Label(screen1,text = " "*15+"Strike Price : ",padx = 5,pady = 5,font=("Calibri", 13)).grid(row=0,column = 4,padx = 5,pady = 5)
+    strike = DoubleVar()
+    strike_entry = Entry(screen1, textvariable = strike)
+    strike_entry.grid(row=0,column = 5,padx = 5,pady = 5)
+    
+    Label(screen1,text = " "*15+"Premium : ",padx = 5,pady = 5,font=("Calibri", 13)).grid(row=0,column = 6,padx = 5,pady = 5)
+    premium = DoubleVar()
+    premium_entry = Entry(screen1, textvariable = premium)
+    premium_entry.grid(row=0,column = 7,padx = 5,pady = 5)
+    
+    Label(screen1,text = " "*15+"Quantity : ",padx = 5,pady = 5,font=("Calibri", 13)).grid(row=0,column = 8,padx = 5,pady = 5)
+    quantity = IntVar()
+    quantity_entry = Entry(screen1, textvariable = quantity)
+    quantity_entry.grid(row=0,column = 9,padx = 5,pady = 5)
+    
+    add_leg_button = Button(screen1,text='Add Option Leg',padx = 5,pady = 5,font=("Calibri", 13),command=lambda:add_leg(database))
+    add_leg_button.grid(row=1,column=0)
+    
+    create_graph_button = Button(screen1,text='Create Graph',padx = 5,pady = 5,font=("Calibri", 13),command=lambda:create_graph(database))
+    create_graph_button.grid(row=1,column=2)
+    
+    save_button = Button(screen1,text=' Save Strategy ',padx = 5,pady = 5,font=("Calibri", 13),command=lambda:save_db(database))
+    save_button.grid(row=1,column=4)
+    
+    c.execute("SELECT *,rowid FROM strats")
+    legs = c.fetchall()
+    conn.close()
+    for leg in legs:
+        _ = remove(screen1, leg[5], str(leg[0]), str(leg[2]), str(leg[1]), str(leg[3]), str(leg[4]), database)
 
-		c.execute("""CREATE TABLE strats (action text,ce_pe text,strike real,premium real,quantity integer)""")
-
-	screen1 = Toplevel(root)
-	screen1.title("Create STRATEGY")
-	screen1.iconbitmap("optionicon.ico")
-	screen1.geometry("%dx%d+0+0"%(root.winfo_screenwidth(),root.winfo_screenheight()))
-
-	Label(screen1,text = "Choose action (BUY/SELL) : ",padx = 5,pady = 5,font=("Calibri", 13)).grid(row=0,column = 0)
-	buy_sell = ttk.Combobox(screen1, value=["BUY", "SELL"],width=6)
-	buy_sell.current(0)
-	buy_sell.grid(row=0,column = 1,padx = 5,pady = 5)
-
-	Label(screen1,text = " "*15+"Choose type (CALL/PUT) : ",padx = 5,pady = 5,font=("Calibri", 13)).grid(row=0,column = 2)
-	ce_pe = ttk.Combobox(screen1, value=["CALL", "PUT"],width=6)
-	ce_pe.current(0)
-	ce_pe.grid(row=0,column = 3,padx = 5,pady = 5)
-
-	Label(screen1,text = " "*15+"Strike Price : ",padx = 5,pady = 5,font=("Calibri", 13)).grid(row=0,column = 4,padx = 5,pady = 5)
-	strike = DoubleVar()
-	strike_entry = Entry(screen1, textvariable = strike)
-	strike_entry.grid(row=0,column = 5,padx = 5,pady = 5)
-
-	Label(screen1,text = " "*15+"Premium : ",padx = 5,pady = 5,font=("Calibri", 13)).grid(row=0,column = 6,padx = 5,pady = 5)
-	premium = DoubleVar()
-	premium_entry = Entry(screen1, textvariable = premium)
-	premium_entry.grid(row=0,column = 7,padx = 5,pady = 5)
-
-	Label(screen1,text = " "*15+"Quantity : ",padx = 5,pady = 5,font=("Calibri", 13)).grid(row=0,column = 8,padx = 5,pady = 5)
-	quantity = IntVar()
-	quantity_entry = Entry(screen1, textvariable = quantity)
-	quantity_entry.grid(row=0,column = 9,padx = 5,pady = 5)
-
-	add_leg_button = Button(screen1,text='Add Option Leg',padx = 5,pady = 5,font=("Calibri", 13),command=lambda:add_leg(database))
-	add_leg_button.grid(row=1,column=0)
-
-	create_graph_button = Button(screen1,text='Create Graph',padx = 5,pady = 5,font=("Calibri", 13),command=lambda:create_graph(database))
-	create_graph_button.grid(row=1,column=2)
-
-	save_button = Button(screen1,text=' Save Strategy ',padx = 5,pady = 5,font=("Calibri", 13),command=lambda:save_db(database))
-	save_button.grid(row=1,column=4)
-
-	c.execute("SELECT *,rowid FROM strats")
-	legs = c.fetchall()
-	conn.close()
-	for leg in legs:
-		_ = remove(screen1, leg[5], str(leg[0]), str(leg[2]), str(leg[1]), str(leg[3]), str(leg[4]), database)
+background = configuration.colors['background']
+header_fg = configuration.colors['header_foreground']
+header_bg = configuration.colors['header_background']
 
 root =Tk()
 root.geometry('381x150')#"%dx%d+0+0"%(root.winfo_screenwidth(),root.winfo_screenheight())
 root.title("Options Pay-Off Builder")
-root.iconbitmap("optionicon.ico")
+root.configure(bg=background)
+img = PhotoImage(file='optionicon_linux.gif')
+if platform == "linux" or platform == "linux2":
+    root.tk.call('wm', 'iconphoto', root._w, img)
+elif platform == "win32":
+    root.iconbitmap("optionicon.ico")
 
-heading = Label(root, text="Options Pay-Off Graph Generator", height = 2, font=("Calibri", 18))
+heading = Label(root, text="Options Pay-Off Graph Generator", height = 2, font=("Calibri", 18), fg=header_fg, bg=header_bg)
 heading.grid(row=0, column=0, columnspan=2, stick=W+E)
 
 create = Button(root, text=" Create New Strategy ", padx = 5, pady = 5, font=("Calibri", 13), command = lambda:add_strat('trial.db'))
