@@ -137,31 +137,32 @@ def add_strat(database):
 		c.execute("""CREATE TABLE strats (action text,ce_pe text,strike real,premium real,quantity integer)""")
 
 	screen1 = Toplevel(root)
+	screen1.configure(bg=background_color)
 	screen1.title("Create STRATEGY")
 	screen1.iconbitmap("optionicon.ico")
 	screen1.geometry("%dx%d+0+0"%(root.winfo_screenwidth(),root.winfo_screenheight()))
 
-	Label(screen1,text = "Choose action (BUY/SELL) : ",padx = 5,pady = 5,font=("Calibri", 13)).grid(row=0,column = 0)
+	Label(screen1,text = "Choose action (BUY/SELL) : ",padx = 5,pady = 5,font=("Calibri", 13), bg=headerbg_color).grid(row=0,column = 0)
 	buy_sell = ttk.Combobox(screen1, value=["BUY", "SELL"],width=6)
 	buy_sell.current(0)
 	buy_sell.grid(row=0,column = 1,padx = 5,pady = 5)
 
-	Label(screen1,text = " "*15+"Choose type (CALL/PUT) : ",padx = 5,pady = 5,font=("Calibri", 13)).grid(row=0,column = 2)
+	Label(screen1,text = " "*15+"Choose type (CALL/PUT) : ",padx = 5,pady = 5,font=("Calibri", 13), bg=headerbg_color).grid(row=0,column = 2)
 	ce_pe = ttk.Combobox(screen1, value=["CALL", "PUT"],width=6)
 	ce_pe.current(0)
 	ce_pe.grid(row=0,column = 3,padx = 5,pady = 5)
 
-	Label(screen1,text = " "*15+"Strike Price : ",padx = 5,pady = 5,font=("Calibri", 13)).grid(row=0,column = 4,padx = 5,pady = 5)
+	Label(screen1,text = " "*15+"Strike Price : ",padx = 5,pady = 5,font=("Calibri", 13), bg=headerbg_color).grid(row=0,column = 4,padx = 5,pady = 5)
 	strike = DoubleVar()
 	strike_entry = Entry(screen1, textvariable = strike)
 	strike_entry.grid(row=0,column = 5,padx = 5,pady = 5)
 
-	Label(screen1,text = " "*15+"Premium : ",padx = 5,pady = 5,font=("Calibri", 13)).grid(row=0,column = 6,padx = 5,pady = 5)
+	Label(screen1,text = " "*15+"Premium : ",padx = 5,pady = 5,font=("Calibri", 13), bg=headerbg_color).grid(row=0,column = 6,padx = 5,pady = 5)
 	premium = DoubleVar()
 	premium_entry = Entry(screen1, textvariable = premium)
 	premium_entry.grid(row=0,column = 7,padx = 5,pady = 5)
 
-	Label(screen1,text = " "*15+"Quantity : ",padx = 5,pady = 5,font=("Calibri", 13)).grid(row=0,column = 8,padx = 5,pady = 5)
+	Label(screen1,text = " "*15+"Quantity : ",padx = 5,pady = 5,font=("Calibri", 13), bg=headerbg_color).grid(row=0,column = 8,padx = 5,pady = 5)
 	quantity = IntVar()
 	quantity_entry = Entry(screen1, textvariable = quantity)
 	quantity_entry.grid(row=0,column = 9,padx = 5,pady = 5)
